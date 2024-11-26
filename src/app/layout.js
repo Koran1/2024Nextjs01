@@ -1,17 +1,18 @@
 import Link from "next/link";
+import './globals.css'
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
         <header>공통 헤더</header>
-        <h1><Link href='/' >  WEB</Link> </h1>
+        <h1><Link href='/' >WEB</Link> </h1>
         <ol>
           <li><Link href='/read/1'>HTML</Link></li>
           <li><Link href='/read/2'>CSS</Link></li>
           <li><Link href='/read/3'>JS</Link></li>
           <li><Link href='/gallery'>Image</Link></li>
-          <li>ItemList(외부서버)</li>
+          <li><Link href='/itemList'>ItemList(외부서버)</Link></li>
           <li>Guestbook(Spring 서버)</li>
         </ol>
         <hr />
