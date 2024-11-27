@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import './itemList.css'
 import { Divider, Grid2 } from '@mui/material';
 import axios from 'axios';
+import Link from 'next/link';
 
 function Page(props) {
     const [list, setList] = useState([]);
@@ -12,7 +13,9 @@ function Page(props) {
         axios.get(API_url)
             .then(res => {
                 console.log(res.data)
-                setList(res.data)
+
+                // 상위 12개 데이터만 추출
+                setList(res.data.slice(0, 12))
             }).catch(err => console.error('Error : ', err))
     }
     // 최초 한번만
@@ -27,16 +30,18 @@ function Page(props) {
                 {
                     list.map(list_item => {
                         return <Grid2 key={list_item.id} size={{ xs: 3 }}>
-                            <img src={list_item.image_link} alt='img' className='img_item' />
-                            <strong>{list_item.name}</strong>
-                            <span className='txt_info'>{list_item.category} &nbsp; &nbsp; {list_item.product_type}</span>
-                            <strong className='num_price'>{list_item.price}</strong>
+                            <Link href={'/view/' + list_item.id}>
+                                <img src={list_item.image_link} alt='img' className='img_item' />
+                                <strong>{list_item.name}</strong>
+                                <span className='txt_info'>{list_item.category} &nbsp; &nbsp; {list_item.product_type}</span>
+                                <strong className='num_price'>{list_item.price}</strong>
+                            </Link>
                         </Grid2>
                     })
                 }
 
             </Grid2>
-        </div>
+        </div >
     );
 }
 
