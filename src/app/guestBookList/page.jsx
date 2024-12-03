@@ -7,18 +7,42 @@ import './guestBookList.css'
 
 function Page() {
     const [list, setList] = useState([]);
-    const API_url = 'http://localhost:8080/api/guestbook/gb_list'
-    const getData = () => {
-        axios.get(API_url)
-            .then(res => {
-                setList(res.data)
-                console.log(res.data)
-            }).catch(err => console.error('Error : ', err))
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const LOCAL_URL = process.env.NEXT_PUBLIC_LOCAL_API_BASE_URL;
+
+    const API_url = `${LOCAL_URL}/guestbook/list`
+    const getData = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.get(API_url)
+            setList(response.data.data.slice(0, 12))
+            // setList([])
+        } catch (error) {
+            console.error("Error : ", error)
+            setError("Failed to fetch data")
+        } finally {
+            setLoading(false)
+        }
     }
     // 최초 한번만
     useEffect(() => {
         getData();
     }, [])
+
+    if (loading) {
+        return <div style={{ textAlign: 'center', padding: '20px' }}>Loading...</div>
+    }
+
+    if (error) {
+        return (
+            <div style={{ textAlign: 'center', padding: '20px', color: 'red' }}>
+                <h2>Error</h2>
+                <p>{error}</p>
+            </div>
+        )
+    }
+
     return (
         <>
             <h2 className="title">GuestBookList</h2>
@@ -32,14 +56,23 @@ function Page() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {list.map((item) => (
-                            <TableRow key={item.gb_idx}>
-                                <TableCell className="table-cell">{item.gb_name}</TableCell>
-                                <TableCell className="table-cell">
-                                    <Link href={`/guestBookDetails/${item.gb_idx}`}>{item.gb_subject}</Link>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        {list.length === 0 ?
+                            <>
+                                <TableRow >
+                                    <TableCell colSpan={2} className="table-cell" align='center'>
+                                        <h2>등록된 정보가 없습니다!</h2>
+                                    </TableCell>
+                                </TableRow>
+                            </>
+                            :
+                            list.map((item) => (
+                                <TableRow key={item.gb_idx}>
+                                    <TableCell className="table-cell">{item.gb_name}</TableCell>
+                                    <TableCell className="table-cell">
+                                        <Link href={`/guestBookDetails/${item.gb_idx}`}>{item.gb_subject}</Link>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                     </TableBody>
                 </Table>
             </TableContainer>
