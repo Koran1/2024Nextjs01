@@ -37,6 +37,7 @@ export default function RootLayout({ children }) {
               <Link href='/login'> 로그인 Login(Spring 서버)</Link>
             )}
             <Link href='/stellarium'> stellarium Test</Link>
+            <Link href='/todayhouse'> Today's House Test</Link>
           </Stack>
         </nav>
         <hr />

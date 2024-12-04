@@ -1,0 +1,36 @@
+.image-container {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #ccc;
+    cursor: crosshair;
+}
+
+.image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.plus-button {
+    position: absolute;
+    background-color: #fff;
+    color: #000;
+    border-radius: 50%;
+    padding: 5px 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transform: translate(-50%, -50%);
+    /* Center the button */
+}
+
+.plus-button:hover {
+    background-color: #f0f0f0;
+}
+
+.message {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}
